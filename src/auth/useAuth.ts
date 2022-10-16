@@ -3,8 +3,15 @@ import { useCallback } from "react";
 import { signInWithEmail, signUpWithEmail, signOut } from "./firebase";
 import { useUser } from "./UserProvider";
 
+type AuthResult = Error | undefined;
+type UseAuth = {
+  signIn: (email: string, password: string) => Promise<AuthResult>;
+  signUp: (email: string, password: string) => Promise<AuthResult>;
+  signOut: () => Promise<void>;
+};
+
 // https://github.com/kurab/react-typescript-firebase/blob/main/app/src/hooks/useAuth.ts
-export const useAuth = () => {
+export const useAuth = (): UseAuth => {
   const router = useRouter();
   const { setUser } = useUser();
 
@@ -13,7 +20,7 @@ export const useAuth = () => {
       return signInWithEmail(email, password, (user) => {
         setUser(user);
         router.push("/");
-      }).catch((err) => alert(err));
+      }).catch((err) => err);
     },
     [router.pathname, setUser]
   );
@@ -23,9 +30,7 @@ export const useAuth = () => {
       return signUpWithEmail(email, password, (user) => {
         setUser(user);
         router.push("/");
-      }).catch((err) => {
-        alert(err);
-      });
+      }).catch((err) => err);
     },
     [router.pathname, setUser]
   );

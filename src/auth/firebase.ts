@@ -36,12 +36,12 @@ export const signInWithEmail = async (
   password: string,
   callback: (user: User) => void
 ) => {
-  return signInWithEmailAndPassword(getAuth(firebase), email, password)
-    .then((credential) => {
+  return signInWithEmailAndPassword(getAuth(firebase), email, password).then(
+    (credential) => {
       const user = credential.user;
       callback(user);
-    })
-    .catch((err) => alert(err));
+    }
+  );
 };
 
 export const signUpWithEmail = async (
@@ -49,12 +49,14 @@ export const signUpWithEmail = async (
   password: string,
   callback: (user: User) => void
 ) => {
-  createUserWithEmailAndPassword(getAuth(firebase), email, password).then(
-    (credential) => {
-      const user = credential.user;
-      callback(user);
-    }
-  );
+  return createUserWithEmailAndPassword(
+    getAuth(firebase),
+    email,
+    password
+  ).then((credential) => {
+    const user = credential.user;
+    callback(user);
+  });
 };
 
 export const subscribeStateChange = (

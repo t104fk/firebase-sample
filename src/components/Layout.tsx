@@ -26,11 +26,11 @@ const Layout = ({ children, title = "This is the default title" }: Props) => {
             <a>Home</a>
           </Link>{" "}
           |{" "}
-          <Link href="/auth/signin">
+          <Link href="/signin">
             <a>SignIn</a>
           </Link>{" "}
           |{" "}
-          <Link href="/auth/signup">
+          <Link href="/signup">
             <a>SignUp</a>
           </Link>{" "}
           |{" "}
@@ -43,9 +43,11 @@ const Layout = ({ children, title = "This is the default title" }: Props) => {
       <footer className="px-sm py-md">
         <hr />
         <span>{user ? `user: ${user.email}` : "Anonymous"}</span>
-        <Button onClick={async () => await signOut()} className="mt-sm">
-          signOut
-        </Button>
+        {user && (
+          <Button onClick={async () => await signOut()} className="mt-sm">
+            signOut
+          </Button>
+        )}
       </footer>
     </div>
   );
